@@ -9,7 +9,7 @@ This project implements a pipeline for generating, refining, and evaluating capt
 ### Step 1: Caption Generation
 - **Model**: `Salesforce/instructblip-flan-t5-xl`
 - **Objective**: Generate initial image captions with minimal context and no assumptions.
-- **Output**: `food_images_captions_fixed.json`
+- **Output**: `synced_captions.json`
 - **Script**: `scripts/baseline.py`
 
 ### Step 2: CLIP Scoring + SLA Evaluation
