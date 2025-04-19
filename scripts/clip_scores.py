@@ -6,11 +6,13 @@ from PIL import Image, UnidentifiedImageError
 from tqdm import tqdm
 from torchvision import transforms
 from torch.utils.data import Dataset, DataLoader
+from transformers import CLIPTokenizer
+hf_tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-large-patch14")
 
 # === CONFIG ===
 image_root = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/food-101/food-101/food-101/images"
-captions_file = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_4_FoodCap/captions_finetuned.json"
-output_scores_file = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_4_FoodCap/captions_finetuned_clip_scores.json"
+captions_file = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_4_FoodCap_encoder_decoder/captions_finetuned.json"
+output_scores_file = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_4_FoodCap_encoder_decoder/captions_finetuned_clip_scores.json"
 batch_size = 32
 model_name = "ViT-L/14"
 threshold = 0.28
@@ -72,6 +74,7 @@ print(f"📊 Scoring {len(dataset)} image-caption pairs...")
 # === Scoring Loop ===
 failures = []
 
+
 for batch in tqdm(dataloader, desc="Scoring Batches"):
     images, captions, filenames = batch
 
@@ -88,7 +91,15 @@ for batch in tqdm(dataloader, desc="Scoring Batches"):
     try:
         with torch.no_grad():
             image_features = model.encode_image(images)
-            text_features = model.encode_text(clip.tokenize(captions).to(device))
+            # Truncate text before passing to clip.tokenize
+            def safe_truncate_text(caption, max_tokens=77):
+                tokens = hf_tokenizer.encode(caption, truncation=True, max_length=max_tokens, add_special_tokens=True)
+                return hf_tokenizer.decode(tokens, skip_special_tokens=True)
+
+            truncated_captions = [safe_truncate_text(c) for c in captions]
+            text_inputs = clip.tokenize(truncated_captions).to(device)
+            text_features = model.encode_text(text_inputs)
+
 
             image_features /= image_features.norm(dim=-1, keepdim=True)
             text_features /= text_features.norm(dim=-1, keepdim=True)
