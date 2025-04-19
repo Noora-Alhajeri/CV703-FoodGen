@@ -1,9 +1,9 @@
 import json
 
 # === Paths ===
-clip_path = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_4_FoodCap_encoder_decoder/captions_finetuned_clip_scores.json"
-sla_path = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_4_FoodCap_encoder_decoder/finetuned_sla_scores_from_embeddings.json"
-output_path = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_4_FoodCap_encoder_decoder/finetuned_combined_clip_sla_scores.json"
+clip_path = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_5_FoodCap_6decoder/captions_finetuned_clip_scores.json"
+sla_path = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_5_FoodCap_6decoder/captions_finetuned_sla_scores_from_embeddings.json"
+output_path = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_5_FoodCap_6decoder/captions_finetuned_combined_clip_sla_scores.json"
 
 # === Load both files ===
 with open(clip_path, "r") as f:

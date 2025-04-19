@@ -11,8 +11,8 @@ hf_tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-large-patch14")
 
 # === CONFIG ===
 image_root = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/food-101/food-101/food-101/images"
-captions_file = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_4_FoodCap_encoder_decoder/captions_finetuned.json"
-output_scores_file = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_4_FoodCap_encoder_decoder/captions_finetuned_clip_scores.json"
+captions_file = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_5_FoodCap_6decoder/captions_finetuned.json"
+output_scores_file = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_5_FoodCap_6decoder/captions_finetuned_clip_scores.json"
 batch_size = 32
 model_name = "ViT-L/14"
 threshold = 0.28

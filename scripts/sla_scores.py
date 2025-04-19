@@ -4,8 +4,8 @@ import numpy as np
 
 # === CONFIG ===
 image_embed_path = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/image_embeddings.pt"
-caption_embed_path = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_4_FoodCap_encoder_decoder/captions_finetuned_embeddings.pt"
-output_path = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_4_FoodCap_encoder_decoder/finetuned_sla_scores_from_embeddings.json"
+caption_embed_path = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_5_FoodCap_6decoder/captions_finetuned_embeddings.pt"
+output_path = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_5_FoodCap_6decoder/captions_finetuned_sla_scores_from_embeddings.json"
 
 # === Load & Normalize Embeddings ===
 def load_feats(path):

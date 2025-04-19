@@ -4,9 +4,9 @@ import clip
 from tqdm import tqdm
 
 # === CONFIG ===
-captions_file = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_4_FoodCap_encoder_decoder/captions_finetuned.json"
+captions_file = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_5_FoodCap_6decoder/captions_finetuned.json"
 
-output_file = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_4_FoodCap_encoder_decoder/captions_finetuned_embeddings.pt"
+output_file = "/home/amal.saqib/Downloads/CV703_FoodGen_Project/finetuning_experiments/experiment_5_FoodCap_6decoder/captions_finetuned_embeddings.pt"
 model_name = "ViT-L/14"
 batch_size = 64
 device = "cuda" if torch.cuda.is_available() else "cpu"
