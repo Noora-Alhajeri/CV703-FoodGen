@@ -82,6 +82,15 @@ It integrates InstructBLIP, CLIP, and large language models (LLMs) to produce hu
 | Scoring (CLIP/SLA)   | `openai/clip-vit-large-patch14`             |
 | Caption Refinement   | `meta-llama/Llama-2-7b-chat-hf` / `GPT-4`   |
 
+## 🔗 Fine-Tuned Models
+
+You can find the fine-tuned FoodGen models at the following link:
+
+📁 [Download Fine-Tuned Models](https://mbzuaiac-my.sharepoint.com/:f:/g/personal/amal_saqib_mbzuai_ac_ae/EhjXsdkPCKBPtssUGIpTZugBIqEgR_1r4p6iel3dU88D1Q?e=QDLSel)
+
+> This includes all final InstructBLIP-based models fine-tuned as part of the project.
+
+
 ## 🛠️ Environment Requirements
 - Python 3.9+
 - PyTorch with CUDA support
@@ -92,9 +101,7 @@ It integrates InstructBLIP, CLIP, and large language models (LLMs) to produce hu
 - Pillow (`PIL`) — for image handling
 - TQDM (`tqdm`) — for progress bars
 
-
 ## 📌 Notes
-
 - The pipeline is modular—scripts can be reused with other datasets or models.
 - Use `caption_log.txt` for tracking sample outputs during training.
 - Fine-tuning experiments are organized under `finetuning_experiments/`.
