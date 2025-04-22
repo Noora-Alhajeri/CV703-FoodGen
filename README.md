@@ -1,7 +1,7 @@
-Food Image Captioning Pipeline
+# 🍽️ Food Image Captioning Pipeline
 This project implements a pipeline for generating, refining, and evaluating captions for food images using vision-language models. It combines the strengths of InstructBLIP, CLIP, and LLaMA to produce human-aligned, high-quality descriptions in domain-specific settings like food imagery.
 
-🚀 Pipeline Overview
+## 🚀Pipeline Overview
 1. Baseline Caption Generation
 Model: Salesforce/instructblip-flan-t5-xl
 
@@ -59,7 +59,7 @@ Score with CLIP & SLA.
 
 Evaluate with BLEU, METEOR, CIDEr on datasets with GT (e.g., Food500Cap).
 
-## Metrics
+## 📊 Metrics
 
 Metric	Description
 CLIP Score	Cosine similarity between image and caption embeddings.
@@ -67,7 +67,7 @@ SLA Rank	Caption's rank based on cosine similarity (lower is better).
 BLEU/ROUGE/METEOR/CIDEr	Used on Food500Cap (which has ground-truth captions).
 📁 Scripts & Key Files
 
-## Path	Purpose
+## 📁 Scripts & Key Files
 scripts/baseline.py	Generate zero-shot InstructBLIP captions
 scripts/image_embeddings.py	Compute CLIP image embeddings
 scripts/caption_embeddings.py	Compute CLIP caption embeddings
@@ -81,14 +81,12 @@ finetuning_experiments/*/	Fine-tuning experiments & results
 - **[Food101](https://www.kaggle.com/datasets/dansbecker/food-101)** – Used for pseudo-labeling & zero-shot experiments.
 - **[Food500Cap (Hugging Face)](https://huggingface.co/datasets/advancedcv/Food500Cap/viewer/default/train)** – Rich, curated food captions used for training & evaluation.
 
-## Models Used
+## 🧠 Models Used
+Caption Generator: Salesforce/instructblip-flan-t5-xl
+Caption Scoring:	openai/clip-vit-large-patch14
+Caption Refinement:	meta-llama/Llama-2-7b-chat-hf / GPT-4
 
-Purpose	Model
-Caption Generator	Salesforce/instructblip-flan-t5-xl
-Caption Scoring	openai/clip-vit-large-patch14
-Caption Refinement	meta-llama/Llama-2-7b-chat-hf / GPT-4
-ITM Evaluation	BLIP2 (via LAVIS)
-🛠️ Environment Requirements
+## 🛠️ Environment Requirements
 Python 3.9+
 
 PyTorch (CUDA enabled)
@@ -97,7 +95,7 @@ HuggingFace transformers
 
 openai-clip, tqdm, Pillow, LAVIS
 
-## Notes
+## 📌 Notes
 Modular pipeline: change filenames or datasets to reuse scripts.
 
 Use caption_log.txt for tracking generated samples.
@@ -106,7 +104,7 @@ Baseline and fine-tuned results are separated for easy comparison.
 
 Experiments are organized under finetuning_experiments/.
 
-## How to Run (Summary)
+## 📍How to Run (Summary)
 
 # 1. Generate Baseline Captions
 python scripts/baseline.py
@@ -128,6 +126,6 @@ python finetuning_experiments/experiment_x/finetuning.py
 python scripts/generate_captions_test.py
 python scripts/evaluation.py
 
-🤝 Credits
+## 🤝 Credits
 Developed as part of the CV703 Vision-Language Research Project @ MBZUAI.
 Project by: Amal Saqib, Karina Abubakirova, Khawla Ali Hasan Ali Almarzooqi, Noora Al Hajeri
