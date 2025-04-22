@@ -71,6 +71,9 @@ It integrates InstructBLIP, CLIP, and large language models (LLMs) to produce hu
 - **[Food500Cap](https://huggingface.co/datasets/advancedcv/Food500Cap/viewer/default/train)**  
   Human-annotated captions used for fine-tuning and evaluation.
 
+- **synced_fixed_image_list.txt**  
+  A text file listing selected Food101 image filenames used for consistency across runs and experiments.
+
 ## 🧠 Models Used
 
 | Task                 | Model                                      |
@@ -95,6 +98,8 @@ It integrates InstructBLIP, CLIP, and large language models (LLMs) to produce hu
 - The pipeline is modular—scripts can be reused with other datasets or models.
 - Use `caption_log.txt` for tracking sample outputs during training.
 - Fine-tuning experiments are organized under `finetuning_experiments/`.
+- The file `synced_fixed_image_list.txt` ensures consistent sampling from Food101 across all experiments.
+
 
 ## 📍 Quickstart Guide
 
