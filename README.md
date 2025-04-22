@@ -84,11 +84,14 @@ It integrates InstructBLIP, CLIP, and large language models (LLMs) to produce hu
 
 ## 🔗 Fine-Tuned Models
 
-You can find the fine-tuned FoodGen models at the following link:
+You can find the fine-tuned FoodGen models at the following links:
 
-📁 [Download Fine-Tuned Models](https://mbzuaiac-my.sharepoint.com/:f:/g/personal/amal_saqib_mbzuai_ac_ae/EhjXsdkPCKBPtssUGIpTZugBIqEgR_1r4p6iel3dU88D1Q?e=QDLSel)
+-  **[Experiment 1](https://huggingface.co/AmalSaqib/instructblip_finetuned_last2_decoder_llama_final)** 
+- **[Experiment 2](https://huggingface.co/AmalSaqib/instructblip_finetuned_last2_decoder_final)** 
+- **[Experiment 3](https://huggingface.co/AmalSaqib/instructblip_finetuned_balanced_subset)**
+- **[Experiment 4](https://huggingface.co/AmalSaqib/instructblip_finetuned_foodcap_fulltrainset_last6decoder)**
 
-> This includes all final InstructBLIP-based models fine-tuned as part of the project.
+> These include all final InstructBLIP-based models fine-tuned as part of the project.
 
 
 ## 🛠️ Environment Requirements
