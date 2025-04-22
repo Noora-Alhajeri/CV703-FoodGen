@@ -27,7 +27,7 @@ It integrates InstructBLIP, CLIP, and large language models (LLMs) to produce hu
 
 ### 4. Fine-Tuning InstructBLIP
 - **Script**: `finetuning_experiments/<experiment>/finetuning.py`
-- **Method**: Decoder-only fine-tuning with LoRA
+- **Method**: Decoder-only fine-tuning
 - **Goal**: Enhance model alignment and descriptive quality for food-specific data.
 
 ### 5. Evaluation
@@ -48,17 +48,20 @@ It integrates InstructBLIP, CLIP, and large language models (LLMs) to produce hu
 
 ## 📁 Key Scripts and Files
 
-| Script/File                                          | Description                                         |
-|------------------------------------------------------|-----------------------------------------------------|
-| `scripts/baseline.py`                                | Generate zero-shot captions using InstructBLIP      |
-| `scripts/image_embeddings.py`                        | Generate CLIP image embeddings                      |
-| `scripts/caption_embeddings.py`                      | Generate CLIP caption embeddings                    |
-| `scripts/clip_scores.py`                             | Compute CLIP scores                                 |
-| `scripts/sla_scores.py`                              | Compute SLA scores                                  |
-| `scripts/clip+sla.py`                                | Combine CLIP and SLA scores                         |
-| `enhance_captions.py` (under `experiment_1_llama/`)  | Refine captions using an LLM                        |
-| `scripts/evaluation.py`                              | Evaluate generated captions using various metrics   |
-| `finetuning_experiments/*/`                          | Fine-tuning configurations and results              |
+| Script/File                                               | Description                                                   |
+|------------------------------------------------------------|---------------------------------------------------------------|
+| `scripts/baseline.py`                                     | Generate zero-shot captions using InstructBLIP                |
+| `scripts/image_embeddings.py`                             | Generate CLIP image embeddings                                |
+| `scripts/caption_embeddings.py`                           | Generate CLIP caption embeddings                              |
+| `scripts/clip_scores.py`                                  | Compute CLIP scores                                           |
+| `scripts/sla_scores.py`                                   | Compute SLA scores                                            |
+| `scripts/clip+sla.py`                                     | Combine CLIP and SLA scores                                   |
+| `scripts/finetuned_caption_generation.py`                 | Generate captions for Food101 using the fine-tuned model      |
+| `scripts/generate_captions_testFood500Cap.py`             | Generate captions for the Food500Cap test set (fine-tuned)    |
+| `enhance_captions.py` (under `experiment_1_llama/`)       | Refine captions using an LLM                                  |
+| `scripts/evaluation.py`                                   | Evaluate generated captions using various metrics             |
+| `finetuning_experiments/*/`                               | Fine-tuning configurations and results                        |
+
 
 ## 📂 Datasets
 
@@ -77,11 +80,15 @@ It integrates InstructBLIP, CLIP, and large language models (LLMs) to produce hu
 | Caption Refinement   | `meta-llama/Llama-2-7b-chat-hf` / `GPT-4`   |
 
 ## 🛠️ Environment Requirements
-
 - Python 3.9+
-- PyTorch with CUDA
-- Hugging Face Transformers
-- `openai-clip`, `tqdm`, `Pillow`, `LAVIS`
+- PyTorch with CUDA support
+- Hugging Face Transformers (`transformers`) — for InstructBLIP and LLMs like LLaMA/GPT
+- TorchVision (`torchvision`) — for image preprocessing and transforms
+- Datasets (`datasets`) — for loading and managing Food500Cap
+- OpenAI CLIP (`openai-clip`) — for image-text similarity scoring
+- Pillow (`PIL`) — for image handling
+- TQDM (`tqdm`) — for progress bars
+
 
 ## 📌 Notes
 
@@ -113,9 +120,10 @@ python finetuning_experiments/experiment_1_llama/enhance_captions.py
 ```bash
 python finetuning_experiments/<experiment>/finetuning.py
 ```
-### Step 5: Generate & Evaluate Captions
+### Step 5: Generate, Evaluate Captions (for Food500Cap), & Score Captions (Step2) 
 ```bash
-python scripts/generate_captions_test.py
+python scripts/finetuned_caption_generation.py
+python scrips/generate_captions_generation.py
 python scripts/evaluation.py
 ```
 ### 🤝 Acknowledgments
