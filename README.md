@@ -1,113 +1,133 @@
-# Food Image Captioning Pipeline
+Food Image Captioning Pipeline
+This project implements a pipeline for generating, refining, and evaluating captions for food images using vision-language models. It combines the strengths of InstructBLIP, CLIP, and LLaMA to produce human-aligned, high-quality descriptions in domain-specific settings like food imagery.
 
-This project implements a pipeline for generating, refining, and evaluating captions for food images. It leverages vision-language models including InstructBLIP, CLIP, and LLaMA to create high-quality, label-aligned image descriptions. The primary goal is to improve caption quality through refinement and fine-tuning, and assess the impact using vision-language alignment metrics.
+🚀 Pipeline Overview
+1. Baseline Caption Generation
+Model: Salesforce/instructblip-flan-t5-xl
 
----
+Script: scripts/baseline.py
 
-## Pipeline Overview
+Output: captions_baseline.json
 
-### Step 1: Caption Generation
-- **Model**: `Salesforce/instructblip-flan-t5-xl`
-- **Objective**: Generate initial image captions with minimal context and no assumptions.
-- **Output**: `synced_captions.json`
-- **Script**: `scripts/baseline.py`
+Goal: Generate concise, neutral food image captions (zero-shot, no context).
 
-### Step 2: CLIP Scoring + SLA Evaluation
-- **Model**: CLIP (`ViT-L/14`)
-- **Metrics**:
-  - **CLIP Score**: Cosine similarity between image and caption embeddings.
-  - **SLA Rank**: Rank of the matching caption among all captions in the batch (lower is better).
-- **Output**: JSON files with per-caption scores (e.g., `*_scores_with_sla.json`)
-- **Script**: `scripts/clip_score_sla.py`
+2. Scoring with CLIP & SLA
+Models: CLIP (ViT-L/14)
 
-### Step 3: Caption Refinement
-- **Refinement Strategy**: Select low-performing captions based on CLIP/SLA, and refine them using a large language model.
-- **Model**: `meta-llama/Llama-2-7b-chat-hf` or `gpt-4` via API (optional).
-- **Output**: `refined_captions.json`, `llama_refined_captions.json`
-- **Script**: `scripts/refining_captions.py`
+Script:
 
-### Step 4: Evaluation (Post-Refinement)
-- Re-evaluate refined captions using CLIP and SLA metrics.
-- Compare scores with original captions to assess improvements.
-- **Optional**: Evaluate using BLIP2 ITM score (image-text matching probability).
-- **Script**: Reuse `clip_score_sla.py`, optionally `blip_score.py`
+scripts/image_embeddings.py
 
-### Step 5: Fine-tuning InstructBLIP
-- **Approach**: LoRA (Low-Rank Adaptation) for efficient parameter-efficient fine-tuning.
-- **Inputs**: Refined captions + corresponding images.
-- **Frozen Parameters**: All layers except `q_proj`, `v_proj` projections.
-- **Output**: Fine-tuned model saved to `instructblip_finetuned/`
-- **Script**: `scripts/finetune.py`
+scripts/caption_embeddings.py
 
-### Step 6: Final Evaluation
-- Re-generate captions with the fine-tuned model.
-- Score them using CLIP and compare with original and refined results.
-- **Goal**: Determine if fine-tuning improves alignment and descriptive quality.
+scripts/clip_sla_score.py
 
----
+Outputs:
 
-## 🧪 Evaluation Metrics
+*_clip_scores.json
 
-| Metric        | Description                                                                 |
-|---------------|-----------------------------------------------------------------------------|
-| CLIP Score    | Cosine similarity between image and caption embeddings (higher is better). |
-| SLA Rank      | Rank of true image-caption pair in similarity matrix (lower is better).    |
-| BLIP2 ITM     | Image-text match score using BLIP2’s classification head (0.0 to 1.0).     |
+*_sla_scores_from_embeddings.json
 
----
+Goal: Evaluate captions based on visual-textual alignment and syntax fluency.
 
-## 📁 Key Files
+3. Caption Refinement (Optional)
+Models: LLaMA-2-7B-chat or GPT-4
 
-| File/Directory                         | Purpose                                      |
-|----------------------------------------|----------------------------------------------|
-| `scripts/baseline.py`                 | Generate baseline captions                   |
-| `scripts/refining_captions.py`       | Refine low-score captions with LLM           |
-| `scripts/clip_score_sla.py`          | CLIP scoring and SLA evaluation              |
-| `scripts/finetune.py`                | Fine-tune InstructBLIP using LoRA            |
-| `scripts/blip_score.py`              | (Optional) BLIP2 ITM score computation       |
-| `refined_captions.json`              | Refined caption dataset                      |
-| `caption_scores/`                    | Folder containing caption evaluation results |
-| `synced_fixed_image_list.txt`        | Filenames of selected subset of images       |
+Script: scripts/refining_captions.py
 
----
+Output: refined_captions.json
 
-## 🧠 Model Summary
+Goal: Improve weak captions using LLMs while preserving factual visual content.
 
-| Component         | Model Name                                 |
-|------------------|---------------------------------------------|
-| Caption Generator| `Salesforce/instructblip-flan-t5-xl`        |
-| Caption Refiner  | `meta-llama/Llama-2-7b-chat-hf` or `GPT-4`  |
-| Scoring Model    | `openai/clip-vit-large-patch14`             |
-| ITM Scoring      | `BLIP2` from LAVIS                          |
+4. Fine-tuning InstructBLIP
+Script: finetuning_experiments/<experiment_name>/finetuning.py
 
----
+Approach: Fine-tune decoder layers using LoRA.
 
-## 🔄 Future Work
+Output: instructblip_finetuned/
 
-- Automate evaluation report generation with visualizations
-- Expand to multilingual food captioning
-- Integrate retrieval metrics (Recall@K) for stronger alignment checks
+Goal: Improve model alignment and descriptiveness for food domain.
 
----
+5. Evaluation
+Script: scripts/evaluation.py
 
-## 📌 Notes
+Tasks:
 
-- All scripts are modular and can be reused across variants (e.g., original, refined, and fine-tuned).
-- For large-scale scoring (20k images), precompute embeddings and avoid real-time scoring in loops.
-- Store checkpoints regularly during scoring or training for robustness.
+Re-caption test split using fine-tuned models.
 
----
+Score with CLIP & SLA.
 
-## 🧪 Environment Requirements
+Evaluate with BLEU, METEOR, CIDEr on datasets with GT (e.g., Food500Cap).
 
-- Python 3.9+
-- PyTorch with CUDA support
-- `transformers`, `peft`, `clip-by-openai`, `tqdm`, `Pillow`, `LAVIS`
-- Optional: Hugging Face login for gated models (e.g., LLaMA)
+## Metrics
 
----
+Metric	Description
+CLIP Score	Cosine similarity between image and caption embeddings.
+SLA Rank	Caption's rank based on cosine similarity (lower is better).
+BLEU/ROUGE/METEOR/CIDEr	Used on Food500Cap (which has ground-truth captions).
+📁 Scripts & Key Files
 
-## ✍️ Author
+## Path	Purpose
+scripts/baseline.py	Generate zero-shot InstructBLIP captions
+scripts/image_embeddings.py	Compute CLIP image embeddings
+scripts/caption_embeddings.py	Compute CLIP caption embeddings
+scripts/clip_sla_score.py	Compute CLIPScore and SLA
+scripts/refining_captions.py	Refine captions with LLM
+scripts/evaluation.py	Evaluate metrics (BLEU, ROUGE, etc.)
+finetuning_experiments/*/	Fine-tuning experiments & results
 
-This project is developed as part of a vision-language captioning evaluation task. For assistance, suggestions, or collaboration, contact the maintainer.
+## 📂 Datasets
 
+- **[Food101](https://www.kaggle.com/datasets/dansbecker/food-101)** – Used for pseudo-labeling & zero-shot experiments.
+- **[Food500Cap (Hugging Face)](https://huggingface.co/datasets/advancedcv/Food500Cap/viewer/default/train)** – Rich, curated food captions used for training & evaluation.
+
+## Models Used
+
+Purpose	Model
+Caption Generator	Salesforce/instructblip-flan-t5-xl
+Caption Scoring	openai/clip-vit-large-patch14
+Caption Refinement	meta-llama/Llama-2-7b-chat-hf / GPT-4
+ITM Evaluation	BLIP2 (via LAVIS)
+🛠️ Environment Requirements
+Python 3.9+
+
+PyTorch (CUDA enabled)
+
+HuggingFace transformers
+
+openai-clip, tqdm, Pillow, LAVIS
+
+## Notes
+Modular pipeline: change filenames or datasets to reuse scripts.
+
+Use caption_log.txt for tracking generated samples.
+
+Baseline and fine-tuned results are separated for easy comparison.
+
+Experiments are organized under finetuning_experiments/.
+
+## How to Run (Summary)
+
+# 1. Generate Baseline Captions
+python scripts/baseline.py
+
+# 2. Generate Embeddings & Score
+python scripts/image_embeddings.py
+python scripts/caption_embeddings.py
+python scripts/clip_scores.py
+python scripts/sla_scores.py
+python scripts/clip+sla.py
+
+# 3. Refine Captions (Optional)
+python scripts/refining_captions.py
+
+# 4. Fine-tune InstructBLIP
+python finetuning_experiments/experiment_x/finetuning.py
+
+# 5. Generate New Captions + Evaluate
+python scripts/generate_captions_test.py
+python scripts/evaluation.py
+
+🤝 Credits
+Developed as part of the CV703 Vision-Language Research Project @ MBZUAI.
+Project by: Amal Saqib, Karina Abubakirova, Khawla Ali Hasan Ali Almarzooqi, Noora Al Hajeri
